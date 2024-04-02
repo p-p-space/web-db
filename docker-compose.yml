@@ -1,0 +1,78 @@
+version: '3.9'
+
+services:
+  mySql5:
+    image: mysql:5.7.44
+    container_name: mysql5-web
+    restart: always
+    ports:
+      - ${MYSQL5_EXP_PORT}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${MYSQL5_DATA}:/var/lib/mysql
+      - ${MYSQL5_CONF}:/etc/mysql/conf.d
+      - ${MYSQL_SCRIPT_CEO}:/docker-entrypoint-initdb.d/database_ceo.sql:ro
+      - ${MYSQL_SCRIPT_CPO}:/docker-entrypoint-initdb.d/database_cpo.sql:ro
+    networks:
+      - web_network
+
+  mySql8:
+    image: mysql:8.3.0
+    container_name: mysql8-web
+    restart: always
+    ports:
+      - ${MYSQL8_EXP_PORT}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${MYSQL8_DATA}:/var/lib/mysql
+      - ${MYSQL8_CONF}:/etc/mysql/conf.d
+      - ${MYSQL_SCRIPT_CEO}:/docker-entrypoint-initdb.d/database_ceo.sql:ro
+      - ${MYSQL_SCRIPT_CPO}:/docker-entrypoint-initdb.d/database_cpo.sql:ro
+    networks:
+      - web_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-web
+    restart: always
+    ports:
+      - ${REDIS_EXP_PORT}:6379
+    volumes:
+      - ${REDIS_DATA}:/data
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    networks:
+      - web_network
+
+  mongo:
+    image: mongo:7.0.8-rc0
+    container_name: mongo-web
+    restart: always
+    ports:
+      - ${MONGO_EXP_PORT}:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - ${MONGO_DATA}:/data/db
+    networks:
+      - web_network
+
+  postgres:
+    image: postgres:15.3
+    container_name: postgress-web
+    restart: always
+    ports:
+      - ${POSTGRES_EXP_PORT}:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
+    networks:
+      - web_network
+
+networks:
+  web_network:
+    name: web_network
