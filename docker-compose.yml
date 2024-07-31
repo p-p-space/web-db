@@ -61,7 +61,7 @@ services:
 
   postgres:
     image: postgres:15.3
-    container_name: postgress-web
+    container_name: postgres-web
     restart: always
     ports:
       - ${POSTGRES_EXP_PORT}:5432
