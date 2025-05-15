@@ -1,29 +1,32 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "diffEditor.ignoreTrimWhitespace": false,
   "editor.bracketPairColorization.enabled": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.largeFileOptimizations": false,
+  "editor.minimap.autohide": true,
   "editor.renderWhitespace": "all",
   "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
-  "prettier.useEditorConfig": true,
-  "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true,
+  "files.eol": "\n",
+  "prettier.bracketSameLine": false,
+  "prettier.jsxSingleQuote": false,
   "prettier.printWidth": 120,
   "prettier.semi": true,
-  "prettier.bracketSameLine": false,
-  "prettier.singleAttributePerLine": true,
+  "prettier.singleAttributePerLine": false,
+  "prettier.singleQuote": true,
   "files.associations": {
     ".env.*": "properties",
     ".env*": "properties"
   },
   "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    "editor.defaultFormatter": "docker.docker"
   },
   "[dockercompose]": {
     "editor.insertSpaces": true,
@@ -31,17 +34,8 @@
     "editor.autoIndent": "advanced",
     "editor.quickSuggestions": {
       "other": true,
-      "comments": false,
+      "comments": true,
       "strings": true
     }
-  },
-  "[html]": {
-    "editor.suggest.insertMode": "replace"
-  },
-  "[shellscript]": {
-    "files.eol": "\n"
-  },
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
   }
 }
