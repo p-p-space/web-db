@@ -1,17 +1,9 @@
 {
   "diffEditor.ignoreTrimWhitespace": false,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.detectIndentation": false,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.guides.bracketPairsHorizontal": "active",
-  "editor.largeFileOptimizations": false,
-  "editor.minimap.autohide": true,
-  "editor.renderWhitespace": "all",
-  "editor.tabSize": 2,
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 120,
   "files.eol": "\n",
@@ -21,21 +13,10 @@
   "prettier.semi": true,
   "prettier.singleAttributePerLine": false,
   "prettier.singleQuote": true,
-  "files.associations": {
-    ".env.*": "properties",
-    ".env*": "properties"
-  },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "docker.docker"
-  },
   "[dockercompose]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
     "editor.autoIndent": "advanced",
-    "editor.quickSuggestions": {
-      "other": true,
-      "comments": true,
-      "strings": true
-    }
+    "editor.insertSpaces": true,
+    "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },
+    "editor.tabSize": 2
   }
 }
