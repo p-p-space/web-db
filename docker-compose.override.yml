@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  mysql:
+    # Increase memory/performance if needed
+    # Uncomment to enable:
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2G
+
+  redis:
+    # Redis persistence already enabled with --appendonly yes
+
+  mongo:
+    # Can add replica set configuration if testing replication
+
+  postgres:
+    # Can add additional environment variables for development

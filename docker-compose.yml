@@ -1,37 +1,32 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  mySql5:
-    image: mysql:5.7.44
-    container_name: mysql5-web
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-web
     restart: always
     ports:
-      - ${MYSQL5_EXP_PORT}:3306
+      - ${MYSQL_EXP_PORT}:3306
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DEFAULT_AUTHENTICATION_PLUGIN=mysql_native_password
     volumes:
-      - ${MYSQL5_DATA}:/var/lib/mysql
-      - ${MYSQL5_CONF}:/etc/mysql/conf.d
+      - ${MYSQL_DATA}:/var/lib/mysql
+      - ${MYSQL_CONF}:/etc/mysql/conf.d
+      - ${MYSQL_SCRIPT_USER}:/docker-entrypoint-initdb.d/database_user.sql:ro
       - ${MYSQL_SCRIPT_CEO}:/docker-entrypoint-initdb.d/database_ceo.sql:ro
       - ${MYSQL_SCRIPT_CPO}:/docker-entrypoint-initdb.d/database_cpo.sql:ro
     networks:
       - web_network
-
-  mySql8:
-    image: mysql:8.3.0
-    container_name: mysql8-web
-    restart: always
-    ports:
-      - ${MYSQL8_EXP_PORT}:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - ${MYSQL8_DATA}:/var/lib/mysql
-      - ${MYSQL8_CONF}:/etc/mysql/conf.d
-      - ${MYSQL_SCRIPT_CEO}:/docker-entrypoint-initdb.d/database_ceo.sql:ro
-      - ${MYSQL_SCRIPT_CPO}:/docker-entrypoint-initdb.d/database_cpo.sql:ro
-    networks:
-      - web_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
@@ -41,12 +36,18 @@ services:
       - ${REDIS_EXP_PORT}:6379
     volumes:
       - ${REDIS_DATA}:/data
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
     networks:
       - web_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   mongo:
-    image: mongo:7.0.8-rc0
+    image: mongo:7.0
     container_name: mongo-web
     restart: always
     ports:
@@ -58,9 +59,15 @@ services:
       - ${MONGO_DATA}:/data/db
     networks:
       - web_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   postgres:
-    image: postgres:15.3
+    image: postgres:15
     container_name: postgres-web
     restart: always
     ports:
@@ -72,6 +79,12 @@ services:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     networks:
       - web_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 networks:
   web_network:

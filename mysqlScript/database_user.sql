@@ -1,0 +1,3 @@
+-- CREATE USER IF NOT EXISTS 'admin_user'@'%' IDENTIFIED BY 'tu_contraseña';
+GRANT ALL PRIVILEGES ON *.* TO 'admin_user'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
